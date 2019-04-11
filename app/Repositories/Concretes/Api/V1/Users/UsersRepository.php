@@ -42,6 +42,6 @@ class UsersRepository extends Repository implements UsersRepositoryInterface
 		Log::debug($usersTeam->id);
 		$usersTeam->assignRole('owner');
 
-		return true;
+		return $team;
 	}
 }

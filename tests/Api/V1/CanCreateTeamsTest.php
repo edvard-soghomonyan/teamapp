@@ -34,4 +34,11 @@ class CanCreateTeamsTest extends TestCase
 		$this->post('/api/v1/teams', ['title' => 'Test title', 'api_token' => $this->user->api_token])
 			->seeInDatabase('teams', ['title' => 'Test title']);
 	}
+
+	public function test_can_edit_team()
+	{
+		$team = json_decode($this->post('/api/v1/teams', ['title' => 'Test title'])->response->getContent())->data->id;
+
+		dd($team);
+	}
 }
