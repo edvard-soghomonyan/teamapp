@@ -17,5 +17,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 		$router->put('/users', 'UsersController@update');
 	    $router->delete('/users', 'UsersController@destroy');
 	    $router->post('/teams', 'TeamsController@store');
+	    $router->put('/teams/{teamId}', 'TeamsController@update');
+	    $router->post('/teams/{teamId}/assign/{userId}', 'TeamsController@assignUser');
     });
 });

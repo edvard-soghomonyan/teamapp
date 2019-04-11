@@ -15,4 +15,24 @@ interface UsersRepositoryInterface extends RepositoryInterface
 	 * @return mixed
 	 */
 	public function createTeam(array $data);
+
+	/**
+	 * Update team for a user
+	 *
+	 * @param int $teamId
+	 * @param array $data
+	 *
+	 * @return mixed
+	 */
+	public function updateTeam($teamId, array $data);
+
+	/**
+	 * Can assign user to a team
+	 *
+	 * @param int $teamId
+	 * @param int $userId
+	 *
+	 * @return mixed
+	 */
+	public function assignTeam($teamId, $userId);
 }

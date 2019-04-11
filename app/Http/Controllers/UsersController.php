@@ -35,7 +35,7 @@ class UsersController extends Controller
 			return response()->json($this->userRepo->store($data));
 		}
 
-		return response()->json($this->userRepo->findWhere('email', $request->email));
+		return response()->json($this->userRepo->findWhere('email', $request->email)->first());
 	}
 
 	public function update(Request $request)
