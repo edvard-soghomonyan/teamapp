@@ -77,6 +77,19 @@ class Repository implements RepositoryInterface
 	}
 
 	/**
+	 * Get a single object
+	 *
+	 * @param int $id
+	 * @param array $columns
+	 *
+	 * @return Object
+	 */
+	public function find($id, $columns = ['*'])
+	{
+		return $this->model->find($id, $columns);
+	}
+
+	/**
 	 * Destroy an object
 	 *
 	 * @param int $id

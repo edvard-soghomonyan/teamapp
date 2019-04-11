@@ -45,6 +45,16 @@ interface RepositoryInterface
 	public function firstOrCreate(array $data = []);
 
 	/**
+	 * Get a single object
+	 *
+	 * @param int $id
+	 * @param array $columns
+	 *
+	 * @return Object
+	 */
+	public function find($id, $columns = ['*']);
+
+	/**
 	 * Destroy an object
 	 *
 	 * @param int $id

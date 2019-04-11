@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\User;
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
 
@@ -35,9 +36,13 @@ class Authenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if ($this->auth->guard($guard)->guest()) {
-            return response('Unauthorized.', 401);
-        }
+	    if ($request->input('api_token')) {
+		    if (! User::where('api_token', $request->input('api_token'))->first()) {
+			    return response('Unauthorized.', 401);
+		    }
+	    } else {
+		    return response('Unauthorized.', 401);
+	    }
 
         return $next($request);
     }

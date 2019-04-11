@@ -48,7 +48,19 @@ class CanCreateNewUserTest extends TestCase
 
 	public function test_can_edit_user_info()
 	{
+		$this->put("api/v1/users", ['name' => 'Name changed'])->seeStatusCode(401);
+
 		$this->put("api/v1/users", ['name' => 'Name changed', 'api_token' => $this->user->api_token])
 			->seeInDatabase('users', ['name' => 'Name changed']);
+	}
+
+	public function test_can_delete_user_info()
+	{
+		$this->put("api/v1/users", [])->seeStatusCode(401);
+
+		$this->delete("api/v1/users", ['api_token' => $this->user->api_token])->seeStatusCode(200);
+
+		//Because of soft delete
+		$this->seeInDatabase('users', ['name' => 'Member']);
 	}
 }
