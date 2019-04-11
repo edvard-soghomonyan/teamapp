@@ -82,4 +82,11 @@ interface RepositoryInterface
 	 * @return mixed
 	 */
 	public function findWhere($column, $value);
+
+	/**
+	 * Get all of a resource
+	 *
+	 * @return Collection|static[]
+	 */
+	public function all();
 }

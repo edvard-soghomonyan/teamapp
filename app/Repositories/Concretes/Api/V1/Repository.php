@@ -130,4 +130,14 @@ class Repository implements RepositoryInterface
 	{
 		return $this->model->where($column, 'LIKE', "%$value%");
 	}
+
+	/**
+	 * Get all of a resource
+	 *
+	 * @return Collection|static[]
+	 */
+	public function all()
+	{
+		return $this->model->all();
+	}
 }

@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 
 use App\Repositories\Contracts\Api\V1\Users\UsersRepositoryInterface;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class UsersController extends Controller
@@ -21,7 +19,12 @@ class UsersController extends Controller
 		$this->userRepo = $userRepo;
 	}
 
-	public function index(Request $request)
+	public function index()
+	{
+		return response()->json(['data' => $this->userRepo->all()]);
+	}
+
+	public function getTeams(Request $request)
 	{
 		return response()->json($this->userRepo->getAllTeams($request->all()));
 	}

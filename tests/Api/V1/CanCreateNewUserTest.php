@@ -25,6 +25,12 @@ class CanCreateNewUserTest extends TestCase
 
 	}
 
+	public function test_can_see_list_of_users()
+	{
+		$this->get("api/v1/users?api_token={$this->user->api_token}")
+			->seeStatusCode(200);
+	}
+
 	public function test_can_create_new_user()
 	{
 		$this->post('api/users', [])
