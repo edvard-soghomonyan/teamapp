@@ -7,6 +7,16 @@ use App\Repositories\Contracts\Api\V1\RepositoryInterface;
 
 interface UsersRepositoryInterface extends RepositoryInterface
 {
+
+	/**
+	 * Get all teams for the user
+	 *
+	 * @param array $data
+	 *
+	 * @return mixed
+	 */
+	public function getAllTeams(array $data);
+
 	/**
 	 * Create a team for a user
 	 *

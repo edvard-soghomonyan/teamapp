@@ -63,4 +63,16 @@ class CanCreateNewUserTest extends TestCase
 		//Because of soft delete
 		$this->seeInDatabase('users', ['name' => 'Member']);
 	}
+
+	public function test_can_see_list_of_teams_for_the_user()
+	{
+		$teamId1 = json_decode($this->post('/api/v1/teams', ['title' => 'New Title', 'api_token' => $this->user->api_token])->response->getContent())->data->id;
+
+		$teamId2 = json_decode($this->post('/api/v1/teams', ['title' => 'New Title 1', 'api_token' => $this->user->api_token])->response->getContent())->data->id;
+
+		$content = json_decode($this->get("/api/v1/users/teams?api_token={$this->user->api_token}")->response->getContent());
+
+		$this->assertEquals($teamId1, $content->teams[0]->pivot->team_id);
+		$this->assertEquals($teamId2, $content->teams[1]->pivot->team_id);
+	}
 }
