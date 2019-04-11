@@ -84,4 +84,38 @@ class UsersRepository extends Repository implements UsersRepositoryInterface
 
 		return true;
 	}
+
+	/**
+	 * Can assign user to a team as owner
+	 *
+	 * @param int $teamId
+	 * @param int $userId
+	 *
+	 * @return mixed
+	 */
+	public function assignTeamAsOwner($teamId, $userId)
+	{
+		$user = $this->findOrFail($userId);
+		$team = $this->teamRepo->findOrFail($teamId);
+
+		$user->teams()->sync($team);
+
+		$usersTeam = UsersTeam::whereUserId($user->id)->whereTeamId($team->id)->first();
+		$usersTeam->assignRole('owner');
+
+		return true;
+	}
+
+	public function deleteTeam($teamId)
+	{
+		$user = $this->findWhere('api_token', $data['api_token'])->first();
+
+		$usersTeam = UsersTeam::whereUserId($user->id)->whereTeamId($teamId)->first();
+
+		if (is_object($usersTeam) && $usersTeam->hasRole('owner')) {
+			return $this->teamRepo->destroy($teamId);
+		}
+
+		return response('Unauthorized.', 401);
+	}
 }

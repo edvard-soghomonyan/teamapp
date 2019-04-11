@@ -64,9 +64,42 @@ class CanCreateTeamsTest extends TestCase
 
 
 		$this->post("/api/v1/teams/{$teamId}/assign/{$newUser->id}", ['api_token' => $this->user->api_token])
-			->seeInDatabase('users_teams', ['user_id' => $newUser->id, 'team_id' => $teamId])->response->getContent();
+			->seeInDatabase('users_teams', ['user_id' => $newUser->id, 'team_id' => $teamId]);
 
 		$this->put("/api/v1/teams/{$teamId}", ['title' => 'Updated', 'api_token' => $newUser->api_token])
 			->seeStatusCode(401);
+	}
+
+	public function can_delete_teams()
+	{
+		$teamId = json_decode($this->post('/api/v1/teams', ['title' => 'New Title', 'api_token' => $this->user->api_token])->response->getContent())->data->id;
+
+		$this->delete("/api/v1/teams/{$teamId}", ['api_token' => $this->user->api_token])
+			->seeStatusCode(200);
+
+		$newUser = json_decode($this->post('api/users', [
+				'email' => 'new_user@test.com',
+				'name' => 'Jane Doe']
+		)->response->getContent());
+
+		$this->delete("/api/v1/teams/{$teamId}", ['api_token' => $newUser->api_token])
+			->seeStatusCode(401);
+	}
+
+	public function test_can_set_user_as_a_team_owner()
+	{
+		$teamId = json_decode($this->post('/api/v1/teams', ['title' => 'New Title', 'api_token' => $this->user->api_token])->response->getContent())->data->id;
+
+		$newUser = json_decode($this->post('api/users', [
+				'email' => 'new_user@test.com',
+				'name' => 'Jane Doe']
+		)->response->getContent());
+
+
+		$this->post("/api/v1/teams/{$teamId}/assign/{$newUser->id}/owner", ['api_token' => $this->user->api_token])
+			->seeInDatabase('users_teams', ['user_id' => $newUser->id, 'team_id' => $teamId]);
+
+		$this->put("/api/v1/teams/{$teamId}", ['title' => 'Updated', 'api_token' => $newUser->api_token])
+			->seeStatusCode(200);
 	}
 }

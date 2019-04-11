@@ -35,4 +35,24 @@ interface UsersRepositoryInterface extends RepositoryInterface
 	 * @return mixed
 	 */
 	public function assignTeam($teamId, $userId);
+
+	/**
+	 * Can assign user to a team as Owner
+	 *
+	 * @param int $teamId
+	 * @param int $userId
+	 *
+	 * @return mixed
+	 */
+	public function assignTeamAsOwner($teamId, $userId);
+
+	/**
+	 * Delete team for a user
+	 *
+	 * @param $teamId
+	 *
+	 * @return mixed
+	 */
+	public function deleteTeam($teamId);
+
 }
